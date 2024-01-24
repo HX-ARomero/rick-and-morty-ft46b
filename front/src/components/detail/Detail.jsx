@@ -8,11 +8,13 @@ function Detail() {
 
     const [ character, setCharacter] = useState({})
 
-    const URL = 'https://rym2.up.railway.app/api/character/'
-   const API_KEY = 'henrystaff'
+    const URL = "http://localhost:3001/rickandmorty/character/"
+    // const URL = 'https://rym2.up.railway.app/api/character/'
+    // const API_KEY = 'henrystaff'
 
     useEffect(()=>{ // 1era vez sería el montaje
-        axios.get(`${URL}${id}?key=${API_KEY}`)
+        // axios.get(`${URL}${id}?key=${API_KEY}`)
+        axios.get(`${URL}${id}`)
         .then(({ data })=>{
             if(data.name) setCharacter(data)
             else alert('No hay personajes con ese ID')
