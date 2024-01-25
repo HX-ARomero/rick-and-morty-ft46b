@@ -1,35 +1,15 @@
 const http = require("http");
 const PORT = 3001;
-const characters = require("./utils/data.js");
+const getCharById = require("./controllers/getCharById.js");
 
 http.createServer((req, res) => {
   // SETEAMOS HEADERS
   res.setHeader('Access-Control-Allow-Origin', '*');
   // RUTAS
   if(req.url.startsWith("/rickandmorty/character")) {
-    const id = Number(req.url.split("/").pop());
-    //console.log(typeof id);
-    const character = characters.find(
-      char => char.id === id
-    )
-
-    if(character) {
-      return res
-        .writeHead(200, { "content-type": "application/json"})
-        .end( JSON.stringify(character));
-    } else {
-      return res
-        .writeHead(404, { "content-type": "application/json"})
-        .end( JSON.stringify({ message: `Personaje con id ${id} no encontrado` }));
-    }
-
+    const id = req.url.split("/").pop();
+    getCharById(res, id);
   }
-
-  return res
-      .writeHead(404, { "content-type": "application/json"})
-      .end( JSON.stringify({ message: `No hay nada en esta ruta...` }));
-
-
 
 }).listen(
   PORT,
