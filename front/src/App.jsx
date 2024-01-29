@@ -45,17 +45,29 @@ function App() {
     setCharacters(characters.filter((char) => char.id !== id));
   };
 
-  const login = ({ email, password }) => {
-   if(email === EMAIL && password === PASSWORD) {
-      setAccess(true)
-      navigate('/home')
-   }
-   else alert('usuario o contraseña incorrectos')
-  }
+  // const login = ({ email, password }) => {
+  //  if(email === EMAIL && password === PASSWORD) {
+  //     setAccess(true)
+  //     navigate('/home')
+  //  }
+  //  else alert('usuario o contraseña incorrectos')
+  // }
+
+  function login(userData) {
+    const { email, password } = userData;
+    const URL = 'http://localhost:3001/rickandmorty/login/';
+    axios(URL + `?email=${email}&password=${password}`)
+      .then(({ data }) => {
+        const { access } = data;
+        setAccess(data);
+        access && navigate('/home');
+        if(!access) return alert("Credenciales incorrectas!!!");
+      });
+ }
 
   useEffect(()=>{
-   //  !access && navigate('/')
-   !access && navigate('/home')
+  //  !access && navigate('/')
+  !access && navigate('/home')
   },[access])
 
   return (
