@@ -2,15 +2,25 @@ import { ADD_FAV, REMOVE_FAV, FILTER, ORDER } from "./actionTypes"
 
 const initialState = {
     myFavorites: [],//[{},{},{}]
-    allCharacters:[]
+    allCharacters:[],
+    errors: ""
 }
 
 function reducer(state = initialState, { type, payload }){
     switch(type){
         case 'ADD_FAV':
-            return { ...state, myFavorites: payload, allCharacters: payload };
+            return {
+                ...state,
+                myFavorites: payload,
+                allCharacters: payload,
+                errors: ""
+            };
         case 'REMOVE_FAV':
-                return { ...state, myFavorites: payload };
+                return { 
+                    ...state,
+                    myFavorites: payload,
+                    errors: ""
+                };
         case FILTER:
             const genderFiltered = state.allCharacters.filter(char => char.gender === payload)
 
@@ -29,7 +39,11 @@ function reducer(state = initialState, { type, payload }){
                 ...state,
                 myFavorites:[...orderedCharacter]
             }
-        
+        case "ERROR":
+            return {
+                ...state,
+                errors: payload
+            }
         default:
             return state
     }
